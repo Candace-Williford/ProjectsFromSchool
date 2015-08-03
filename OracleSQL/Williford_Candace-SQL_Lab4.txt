@@ -1,0 +1,310 @@
+Candace Williford
+CSIT 2520
+Fall 2014
+Lab 4
+
+set echo on;
+
+-- 1. Using the AVIA_CUSTOMER table: Study the product price 
+-- example in the TO_CHAR() section of Chapter 4 on the 
+-- top half of page 116. Using a similar style of coding,
+-- write a query to show the customer’s balance for
+-- customers 10010 through 10015 only. Sort by balance
+-- from greatest to least. Use justification and formatting that 
+-- exactly matches the following example. Use Table 4-4
+-- for help with the numeric formatting.
+
+
+Customer Balance Records
+------------------------------------------- 
+Customer 10010 - Jane Does owes $1,119.49.
+… etc.
+Customer 10012 – Myfirst MyLast owes $0.00.
+
+
+> SELECT 'Customer ' || cus_code || ' - ' || cus_fname || ' ' || cus_lname || ' owes ' || TRIM(TO_CHAR(cus_balance, '$999,999.99')) AS "CUS_BALANCE"
+FROM avia_customer
+WHERE cus_code >= 10010 AND cus_code <= 10015
+ORDER BY cus_balance DESC
+CUS_BALANCE                                                                                         
+-----------------------------------------------------------------------------------------------------
+Customer 10015 - Amy O'Brian owes $1,014.56                                                           
+Customer 10014 - Myron Orlando owes $673.21                                                           
+Customer 10013 - Paul Olowski owes $1,285.19                                                          
+Customer 10012 - Kathy Smith owes $896.54                                                             
+Customer 10011 - Leona Dunne owes $.00                                                                
+Customer 10010 - Alfred Ramas owes $.00                                                               
+
+ 6 rows selected 
+
+
+-- 2. Using the STOCK table, find the rounded average of
+-- today’s closing price minus yesterday’s closing price
+-- grouped by industry. 
+-- Display with a precision of 2 decimal places with a
+-- leading + or – sign. Be sure to view the table structure
+-- before writing the query. Your output should use the 
+-- following format:
+
+Industry        Average Gain/Loss 
+--------------- ----------------- 
+AGRICULTURE      +1.25            
+TRANSPORTATION    +.50            
+ADVERTISING       -.50     
+etc. 
+
+> SELECT industry AS "Industry", TO_CHAR(AVG(closetoday - closeyesterday), 'S999.99') AS "Average Gain/Loss"
+FROM stock
+GROUP BY industry
+Industry        Average Gain/Loss
+--------------- -----------------
+AGRICULTURE       +1.25           
+TRANSPORTATION     +.50           
+ADVERTISING        -.50           
+COSMETICS          +.25           
+MEDICAL           +1.06           
+SPACE             +1.46           
+ELECTRONICS        -.50           
+GARMENT            +.75           
+
+ 8 rows selected 
+
+
+-- 3. Using table CHARTER, find the total distance flown, 
+-- the average number of gallons used per mile flown,
+-- the number of distinct destinations flown to, and the
+-- total number of charter flights recorded in this table.
+-- Use one select statement to display all of this 
+-- information across the page as follows:
+
+Total Distance Avg MPG       Distinct Cities   # of Charters
+-------------- ------------- ----------------- --------------
+     nnnnnnn          nn.nnn                 n              n
+
+> SELECT SUM(char_distance) AS "Total Distance", 
+  ROUND(AVG(char_fuel_gallons), 3) AS "Avg MPG", 
+  COUNT(char_destination) AS "Distinct Cities", 
+  COUNT(char_trip) AS "# of Charters"
+FROM charter
+Total Distance    Avg MPG Distinct Cities # of Charters
+-------------- ---------- --------------- -------------
+         15512    231.394              18            18 
+
+
+-- 4. a. Make a copy of your ALL_SALES table (include the data)
+--       and name this new table MY_SALES. 
+
+	DROP TABLE MY_SALES;
+
+	CREATE TABLE MY_SALES
+	AS (SELECT * FROM ALL_SALES);
+--
+--    b. Use a single DML statement to change
+--       the YEAR for all records to 2013. 
+
+	> UPDATE my_sales
+	SET year = 2013
+	360 rows updated.
+--
+--    c. Show the transaction control (TC) statement you used
+--       to make these changes permanent.
+	
+	> commit
+	committed.
+
+
+-- 5. Display the total for all sales in your new MY_SALES
+-- table made during the first two quarters of the year (Jan-June).
+-- Round this amount to a whole number, padded with asterisks on
+-- the left to a total width of 12 characters.
+
+> SELECT month AS "Month", LPAD(TO_CHAR(ROUND(SUM(NVL(amount, 0)), 0), 'fm$999,999'), 12, '*') AS "Amount"
+FROM my_sales
+GROUP BY month
+HAVING month <= 6
+ORDER BY month
+     Month Amount     
+---------- ------------
+         1 *****$95,526 
+         2 ****$116,672 
+         3 ****$160,308 
+         4 ****$175,999 
+         5 ****$154,349 
+         6 ****$124,951 
+
+ 6 rows selected 
+
+
+
+-- 6. Display the first name and birth date from the AVIA_EMPLOYEES 
+-- table. List people from OLDEST to YOUNGEST, in the following format:
+-- (refer to your textbook, Ch. 5 for examples of how to display dates)
+
+Employee Birthdays
+-----------------------------------------------------------------------
+SpongeBob............  May Twentieth, Nineteen Forty-Two
+MPotatoHead..........  February Second, Nineteen Forty-Seven
+etc.
+
+> SELECT RPAD(emp_fname, 22, '.'), TO_CHAR(emp_dob, 'fmMonth Ddspth, Year')
+FROM avia_employee
+RPAD(EMP_FNAME,22,'.') TO_CHAR(EMP_DOB,'FMMONTHDDSPTH,YEAR')                              
+---------------------- --------------------------------------------------------------------
+George................ June Fifteenth, Nineteen Forty-Two                                   
+Rhonda................ March Nineteenth, Nineteen Sixty-Five                                
+Rhett................. November Fourteenth, Nineteen Fifty-Eight                            
+Anne.................. October Sixteenth, Nineteen Seventy-Four                             
+John.................. November Eighth, Nineteen Seventy-One                                
+Robert................ March Fourteenth, Nineteen Seventy-Five                              
+Jeanine............... February Twelfth, Nineteen Sixty-Eight                               
+Jorge................. August Twenty-First, Nineteen Seventy-Four                           
+Paul.................. February Fourteenth, Nineteen Sixty-Six                              
+Elizabeth............. June Eighteenth, Nineteen Sixty-One                                  
+Leighla............... May Nineteenth, Nineteen Seventy                                     
+
+ 11 rows selected 
+
+-- 7. Using the PAYDAY table and the specified formatting,
+-- display the month, day of the week
+-- for the cycle date, number of days between the cycle
+-- date and the last day of the month, and the day of
+-- the week for the last day of the month. Sort by month.
+-- Headings and format should be as follows:
+--
+-- Month        Day of Week      Days Between  Last Day
+-- ------------ ---------------  ------------  --------
+-- January      Sunday                     16  Tuesday
+--
+-- Use column aliases and TO_CHAR function in SQL Developer 
+-- OR select the SQL PLUS column commands to run in a SQL Plus session.
+
+(these commands will only work when the script is run in SQL Plus)
+column Month heading Month format a13
+column DayofWeek heading 'Day of Week' format a13
+column DaysBetween heading 'Days Between' format 99
+column LastDay heading 'Last Day' format a13
+
+> SELECT TO_CHAR(cycledate, 'Month') AS "Month", 
+  TO_CHAR(cycledate, 'Day') AS "Day of Week", 
+  (LAST_DAY(cycledate) - cycledate) AS "Days Between",
+  TO_CHAR(LAST_DAY(cycledate), 'Day') AS "Last Day"
+FROM payday
+ORDER BY cycledate
+Month     Day of Week Days Between Last Day
+--------- ----------- ------------ ---------
+January   Wednesday             16 Friday    
+February  Saturday              13 Friday    
+March     Saturday              16 Monday    
+April     Tuesday               15 Wednesday 
+May       Thursday              16 Saturday  
+June      Sunday                15 Monday    
+July      Tuesday               16 Thursday  
+August    Friday                16 Sunday    
+September Monday                15 Tuesday   
+October   Wednesday             16 Friday    
+November  Saturday              15 Sunday    
+December  Monday                16 Wednesday 
+
+ 12 rows selected 
+
+Problems 8-10 use the store schema of the PRICE textbook.
+
+-- 8. Using a user friendly output of your choice, display the name of
+-- of each store schema employee and the name of his or her manager.
+-- Names should be first name followed by last name, sorted by 
+-- manager’s name in a concatenated format.
+
+> SELECT  e1.first_name || ' ' || e1.last_name || ' is managed by ' || NVL(e2.first_name, 'no') || ' ' || e2.last_name || '.' AS "Management"
+FROM more_employees e1, more_employees e2
+WHERE e1.manager_id = e2.employee_id
+ORDER BY e2.last_name ASC
+Management                                               
+----------------------------------------------------------
+Doreen Penn is managed by Kevin Black.                     
+Frank Howard is managed by Kevin Black.                    
+Keith Long is managed by Kevin Black.                      
+Henry Heyson is managed by Jane Brown.                     
+Jean Blue is managed by John Grey.                         
+Fred Hobbs is managed by Ron Johnson.                      
+Rob Green is managed by Ron Johnson.                       
+John Grey is managed by Susan Jones.                       
+Jane Brown is managed by Susan Jones.                      
+Susan Jones is managed by James Smith.                     
+Kevin Black is managed by James Smith.                     
+Ron Johnson is managed by James Smith.                     
+
+ 12 rows selected 
+
+
+-- 9. Using a user friendly output of your choice, display the product -- name, product type (name, not id), product description, and price
+-- for all products that we sell.
+
+****This one I updated the product_type_id for row 12 because it was null and I felt that it should have had a type of 4.
+
+UPDATE products
+SET product_type_id = 4
+WHERE product_id = 12;
+
+> commit
+committed.
+
+****
+
+> SELECT products.name AS "Product Name", product_types.name AS "Product Type", products.description AS "Product Description", TO_CHAR(products.price, '$99.99') AS "Product Price"
+FROM products INNER JOIN product_types
+USING(product_type_id)
+Product Name                   Product Type Product Description                                Product Price
+------------------------------ ------------ -------------------------------------------------- -------------
+Modern Science                 Book         A description of modern science                     $19.95       
+Chemistry                      Book         Introduction to Chemistry                           $30.00       
+Z Files                        Video        Series on mysterious activities                     $49.99       
+Tank War                       Video        Action movie about a future war                     $13.95       
+Supernova                      Video        A star explodes                                     $25.99       
+2412: The Return               Video        Aliens return                                       $14.95       
+Space Force 9                  DVD          Adventures of heroes                                $13.49       
+From Another Planet            DVD          Alien from another planet lands on Earth            $12.99       
+Classical Music                CD           The best classical music                            $10.99       
+Pop 3                          CD           The best popular music                              $15.99       
+Creative Yell                  CD           Debut album                                         $14.99       
+My Front Line                  CD           Their greatest hits                                 $13.49       
+
+ 12 rows selected 
+
+
+-- 10. Using a format similar to my example, display the average 
+-- and total amount of sales grouped by month for all
+-- sales documented in our new MY_SALES table for the year 2013.
+-- Only include months with average sales of $5500 or more.
+-- Sort the table by month number (i.e. January, February, etc.)
+-- Hint: This will require use of group by and aggregate functions.
+
+Example:
+
+Month        Average     Total        
+--------- ----------- ------------ 
+April       $7,333.28  $175,998.80 
+July        $7,095.67  $170,296.16 
+August      $8,863.99  $212,735.68 
+etc.
+
+> SELECT TO_CHAR(TO_DATE(month, 'MM'), 'Month') AS "Month", 
+  TO_CHAR(AVG(amount), '$999,999.99') AS "Average", 
+  TO_CHAR(SUM(amount), '$999,999.99') AS "Total"
+FROM my_sales
+GROUP BY month
+HAVING AVG(amount) > 5500
+Month     Average      Total      
+--------- ------------ ------------
+November     $6,675.92  $160,221.98 
+April        $7,333.28  $175,998.80 
+May          $6,431.23  $154,349.44 
+August       $8,863.99  $212,735.68 
+March        $6,679.50  $160,307.92 
+July         $7,095.67  $170,296.16 
+September    $8,317.07  $199,609.68 
+October     $11,020.03  $264,480.79 
+December     $5,722.34  $137,336.17 
+
+ 9 rows selected 
+
+Submit one results file to the Lab 4 dropbox. The file should display each question text as copied from this instruction sheet, your SQL statements, and the results of running each statement. Please ask for clarification early on if you’re not sure what I’m asking for.

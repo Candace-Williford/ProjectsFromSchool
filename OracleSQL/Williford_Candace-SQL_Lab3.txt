@@ -1,0 +1,257 @@
+> -- Candace Williford
+> -- CSIT 2520
+> -- Fall 2014
+> -- Number 1 using '86 syntax
+> SELECT avia_employee.emp_num, avia_employee.emp_title, avia_employee.EMP_LNAME, avia_employee.EMP_FNAME, pilot.PIL_LICENSE, pilot.PIL_RATINGS
+FROM avia_employee, pilot
+WHERE avia_employee.emp_num = pilot.emp_num
+   EMP_NUM EMP_TITLE EMP_LNAME       EMP_FNAME       PIL_LICENSE               PIL_RATINGS                  
+---------- --------- --------------- --------------- ------------------------- ------------------------------
+       101 Ms.       Lewis           Rhonda          ATP                       ATP/SEL/MEL/Instr/CFII         
+       104 Mr.       Lange           John            ATP                       ATP/SEL/MEL/Instr              
+       105 Mr.       Williams        Robert          COM                       COMM/SEL/MEL/Instr/CFI         
+       106 Mrs.      Duzak           Jeanine         COM                       ATP/SEL/MEL/Instr              
+       109 Ms.       Travis          Elizabeth       COM                       ATP/SEL/MEL/SES/Instr/CFII     
+
+> -- Number 1 using '92 syntax
+> SELECT emp_num, avia_employee.emp_title, avia_employee.EMP_LNAME, avia_employee.EMP_FNAME, pilot.PIL_LICENSE, pilot.PIL_RATINGS
+FROM avia_employee INNER JOIN pilot
+USING(emp_num)
+   EMP_NUM EMP_TITLE EMP_LNAME       EMP_FNAME       PIL_LICENSE               PIL_RATINGS                  
+---------- --------- --------------- --------------- ------------------------- ------------------------------
+       101 Ms.       Lewis           Rhonda          ATP                       ATP/SEL/MEL/Instr/CFII         
+       104 Mr.       Lange           John            ATP                       ATP/SEL/MEL/Instr              
+       105 Mr.       Williams        Robert          COM                       COMM/SEL/MEL/Instr/CFI         
+       106 Mrs.      Duzak           Jeanine         COM                       ATP/SEL/MEL/Instr              
+       109 Ms.       Travis          Elizabeth       COM                       ATP/SEL/MEL/SES/Instr/CFII     
+
+> -- Number 2 using '86 syntax
+> SELECT avia_employee.emp_num, avia_employee.emp_title, avia_employee.EMP_LNAME, avia_employee.EMP_FNAME, pilot.PIL_LICENSE, pilot.PIL_RATINGS
+FROM avia_employee, pilot
+WHERE avia_employee.emp_num = pilot.emp_num(+)
+   EMP_NUM EMP_TITLE EMP_LNAME       EMP_FNAME       PIL_LICENSE               PIL_RATINGS                  
+---------- --------- --------------- --------------- ------------------------- ------------------------------
+       101 Ms.       Lewis           Rhonda          ATP                       ATP/SEL/MEL/Instr/CFII         
+       104 Mr.       Lange           John            ATP                       ATP/SEL/MEL/Instr              
+       105 Mr.       Williams        Robert          COM                       COMM/SEL/MEL/Instr/CFI         
+       106 Mrs.      Duzak           Jeanine         COM                       ATP/SEL/MEL/Instr              
+       109 Ms.       Travis          Elizabeth       COM                       ATP/SEL/MEL/SES/Instr/CFII     
+       103 Ms.       Jones           Anne                                                                     
+       100 Mr.       Kolmycz         George                                                                   
+       110 Mrs.      Genkazi         Leighla                                                                  
+       108 Mr.       Wiesenbach      Paul                                                                     
+       102 Mr.       VanDam          Rhett                                                                    
+       107 Mr.       Diante          Jorge                                                                    
+
+ 11 rows selected 
+
+> -- Number 2 using '92 syntax
+> SELECT emp_num, avia_employee.emp_title, avia_employee.EMP_LNAME, avia_employee.EMP_FNAME, pilot.PIL_LICENSE, pilot.PIL_RATINGS
+FROM avia_employee LEFT OUTER JOIN pilot
+USING(emp_num)
+   EMP_NUM EMP_TITLE EMP_LNAME       EMP_FNAME       PIL_LICENSE               PIL_RATINGS                  
+---------- --------- --------------- --------------- ------------------------- ------------------------------
+       101 Ms.       Lewis           Rhonda          ATP                       ATP/SEL/MEL/Instr/CFII         
+       104 Mr.       Lange           John            ATP                       ATP/SEL/MEL/Instr              
+       105 Mr.       Williams        Robert          COM                       COMM/SEL/MEL/Instr/CFI         
+       106 Mrs.      Duzak           Jeanine         COM                       ATP/SEL/MEL/Instr              
+       109 Ms.       Travis          Elizabeth       COM                       ATP/SEL/MEL/SES/Instr/CFII     
+       103 Ms.       Jones           Anne                                                                     
+       100 Mr.       Kolmycz         George                                                                   
+       110 Mrs.      Genkazi         Leighla                                                                  
+       108 Mr.       Wiesenbach      Paul                                                                     
+       102 Mr.       VanDam          Rhett                                                                    
+       107 Mr.       Diante          Jorge                                                                    
+
+ 11 rows selected 
+
+> -- Number 3 using '86 syntax
+> SELECT charter.CHAR_DATE, avia_customer.CUS_LNAME, avia_customer.cus_fname, avia_customer.CUS_BALANCE, charter.CHAR_TRIP, charter.CHAR_DESTINATION, aircraft.AC_NUMBER, aircraft.mod_code
+FROM charter, avia_customer, aircraft
+WHERE avia_customer.cus_balance > 0 
+AND avia_customer.cus_code = charter.cus_code
+AND charter.AC_NUMBER = aircraft.ac_number
+ORDER BY charter.char_date, avia_customer.cus_lname, avia_customer.cus_fname
+CHAR_DATE CUS_LNAME       CUS_FNAME       CUS_BALANCE  CHAR_TRIP CHAR_DESTINATION AC_NUMBER MOD_CODE 
+--------- --------------- --------------- ----------- ---------- ---------------- --------- ----------
+05-FEB-13 Orlando         Myron                673.21      10003 GNV              4278Y     PA31-350   
+06-FEB-13 Smith           Kathy                896.54      10007 GNV              2778V     PA31-350   
+06-FEB-13 Smith           Olette               453.98      10004 STL              1484P     PA23-250   
+07-FEB-13 Orlando         Myron                673.21      10008 TYS              1484P     PA23-250   
+07-FEB-13 Smith           Kathy                896.54      10011 BNA              1484P     PA23-250   
+10-FEB-13 Orlando         Myron                673.21      10017 STL              1484P     PA23-250   
+
+ 6 rows selected 
+
+> -- Number 3 using '92 syntax
+> SELECT charter.CHAR_DATE, avia_customer.CUS_LNAME, avia_customer.cus_fname, avia_customer.CUS_BALANCE, charter.CHAR_TRIP, charter.CHAR_DESTINATION, AC_NUMBER, aircraft.mod_code
+FROM charter INNER JOIN avia_customer
+USING(cus_code)
+INNER JOIN aircraft
+USING (ac_number)
+WHERE avia_customer.cus_balance > 0
+ORDER BY charter.char_date, avia_customer.cus_lname, avia_customer.cus_fname
+CHAR_DATE CUS_LNAME       CUS_FNAME       CUS_BALANCE  CHAR_TRIP CHAR_DESTINATION AC_NUMBER MOD_CODE 
+--------- --------------- --------------- ----------- ---------- ---------------- --------- ----------
+05-FEB-13 Orlando         Myron                673.21      10003 GNV              4278Y     PA31-350   
+06-FEB-13 Smith           Kathy                896.54      10007 GNV              2778V     PA31-350   
+06-FEB-13 Smith           Olette               453.98      10004 STL              1484P     PA23-250   
+07-FEB-13 Orlando         Myron                673.21      10008 TYS              1484P     PA23-250   
+07-FEB-13 Smith           Kathy                896.54      10011 BNA              1484P     PA23-250   
+10-FEB-13 Orlando         Myron                673.21      10017 STL              1484P     PA23-250   
+
+ 6 rows selected 
+
+> -- Number 4 using '86 syntax
+> SELECT aircraft.ac_number, aircraft.mod_code, model.MOD_MANUFACTURER, aircraft.AC_TTAF, aircraft.AC_TTEL, aircraft.AC_TTER, charter.CHAR_TRIP, charter.CHAR_DATE, charter.CHAR_DESTINATION, charter.CHAR_DISTANCE
+FROM aircraft, model, charter
+WHERE charter.ac_number = aircraft.ac_number(+)
+AND aircraft.mod_code = model.mod_code
+ORDER BY aircraft.ac_number
+AC_NUMBER MOD_CODE   MOD_MANUFACTURER    AC_TTAF    AC_TTEL    AC_TTER  CHAR_TRIP CHAR_DATE CHAR_DESTINATION CHAR_DISTANCE
+--------- ---------- ---------------- ---------- ---------- ---------- ---------- --------- ---------------- -------------
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10008 07-FEB-13 TYS                        644 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10017 10-FEB-13 STL                        508 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10011 07-FEB-13 BNA                        352 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10004 06-FEB-13 STL                        472 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10005 06-FEB-13 ATL                       1023 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10001 05-FEB-13 ATL                        936 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10009 07-FEB-13 GNV                       1574 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10015 09-FEB-13 GNV                       1645 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10007 06-FEB-13 GNV                       1574 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10016 09-FEB-13 MQY                        312 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10002 05-FEB-13 BNA                        320 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10012 08-FEB-13 MOB                        884 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10006 06-FEB-13 STL                        472 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10014 09-FEB-13 ATL                        936 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10003 05-FEB-13 GNV                       1574 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10010 07-FEB-13 ATL                        998 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10018 10-FEB-13 TYS                        644 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10013 08-FEB-13 TYS                        644 
+
+ 18 rows selected 
+
+> -- Number 4 using '92 syntax
+> SELECT ac_number, mod_code, model.MOD_MANUFACTURER, AC_TTAF, AC_TTEL, ac_tter, CHAR_TRIP, CHAR_DATE, CHAR_DESTINATION, CHAR_DISTANCE
+FROM aircraft FULL OUTER JOIN charter
+USING(ac_number)
+INNER JOIN model
+USING(mod_code)
+ORDER BY ac_number
+AC_NUMBER MOD_CODE   MOD_MANUFACTURER    AC_TTAF    AC_TTEL    AC_TTER  CHAR_TRIP CHAR_DATE CHAR_DESTINATION CHAR_DISTANCE
+--------- ---------- ---------------- ---------- ---------- ---------- ---------- --------- ---------------- -------------
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10011 07-FEB-13 BNA                        352 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10017 10-FEB-13 STL                        508 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10004 06-FEB-13 STL                        472 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10008 07-FEB-13 TYS                        644 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10009 07-FEB-13 GNV                       1574 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10001 05-FEB-13 ATL                        936 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10005 06-FEB-13 ATL                       1023 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10015 09-FEB-13 GNV                       1645 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10007 06-FEB-13 GNV                       1574 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10012 08-FEB-13 MOB                        884 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10016 09-FEB-13 MQY                        312 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10002 05-FEB-13 BNA                        320 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10014 09-FEB-13 ATL                        936 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10013 08-FEB-13 TYS                        644 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10006 06-FEB-13 STL                        472 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10003 05-FEB-13 GNV                       1574 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10010 07-FEB-13 ATL                        998 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10018 10-FEB-13 TYS                        644 
+5289L     C-90A      Beechcraft           3950.2      745.5     1001.1                                                     
+
+ 19 rows selected 
+
+> -- Number 4 proof that it works
+> SELECT ac_number, mod_code, model.MOD_MANUFACTURER, AC_TTAF, AC_TTEL, ac_tter, CHAR_TRIP, CHAR_DATE, CHAR_DESTINATION, CHAR_DISTANCE
+FROM aircraft FULL OUTER JOIN charter
+USING(ac_number)
+INNER JOIN model
+USING(mod_code)
+ORDER BY ac_number
+AC_NUMBER MOD_CODE   MOD_MANUFACTURER    AC_TTAF    AC_TTEL    AC_TTER  CHAR_TRIP CHAR_DATE CHAR_DESTINATION CHAR_DISTANCE
+--------- ---------- ---------------- ---------- ---------- ---------- ---------- --------- ---------------- -------------
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10011 07-FEB-13 BNA                        352 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10017 10-FEB-13 STL                        508 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10004 06-FEB-13 STL                        472 
+1484P     PA23-250   Piper                1833.1     1833.1      101.8      10008 07-FEB-13 TYS                        644 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10009 07-FEB-13 GNV                       1574 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10001 05-FEB-13 ATL                        936 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10005 06-FEB-13 ATL                       1023 
+2289L     C-90A      Beechcraft           4243.8      768.9     1123.4      10015 09-FEB-13 GNV                       1645 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10007 06-FEB-13 GNV                       1574 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10012 08-FEB-13 MOB                        884 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10016 09-FEB-13 MQY                        312 
+2778V     PA31-350   Piper                7992.9     1513.1      789.5      10002 05-FEB-13 BNA                        320 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10014 09-FEB-13 ATL                        936 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10013 08-FEB-13 TYS                        644 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10006 06-FEB-13 STL                        472 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10003 05-FEB-13 GNV                       1574 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10010 07-FEB-13 ATL                        998 
+4278Y     PA31-350   Piper                2147.3      622.1      243.2      10018 10-FEB-13 TYS                        644 
+5289L     C-90A      Beechcraft           3950.2      745.5     1001.1                                                     
+
+ 19 rows selected 
+
+> -- Number 5 using '86 syntax
+> SELECT charter.CHAR_DATE, charter.AC_NUMBER, charter.CHAR_DESTINATION, charter.CHAR_DISTANCE, avia_employee.EMP_LNAME, avia_employee.EMP_FNAME, crew.CREW_JOB
+FROM charter, avia_employee, crew
+WHERE charter.CHAR_DATE = '07-FEB-2013'
+AND avia_employee.EMP_NUM = crew.EMP_NUM
+AND crew.CHAR_TRIP = charter.CHAR_TRIP
+CHAR_DATE AC_NUMBER CHAR_DESTINATION CHAR_DISTANCE EMP_LNAME       EMP_FNAME       CREW_JOB           
+--------- --------- ---------------- ------------- --------------- --------------- --------------------
+07-FEB-13 1484P     BNA                        352 Lewis           Rhonda          Pilot                
+07-FEB-13 1484P     BNA                        352 Lange           John            Copilot              
+07-FEB-13 2289L     GNV                       1574 Williams        Robert          Pilot                
+07-FEB-13 1484P     TYS                        644 Duzak           Jeanine         Pilot                
+07-FEB-13 4278Y     ATL                        998 Wiesenbach      Paul            Pilot                
+
+> -- Number 5 using '92 syntax
+> SELECT CHAR_DATE, AC_NUMBER, CHAR_DESTINATION, charter.CHAR_DISTANCE, avia_employee.EMP_LNAME, avia_employee.EMP_FNAME, crew.CREW_JOB
+FROM crew INNER JOIN avia_employee
+USING(emp_num)
+INNER JOIN charter
+USING(char_trip)
+WHERE charter.CHAR_DATE = '07-FEB-2013'
+CHAR_DATE AC_NUMBER CHAR_DESTINATION CHAR_DISTANCE EMP_LNAME       EMP_FNAME       CREW_JOB           
+--------- --------- ---------------- ------------- --------------- --------------- --------------------
+07-FEB-13 1484P     BNA                        352 Lewis           Rhonda          Pilot                
+07-FEB-13 1484P     BNA                        352 Lange           John            Copilot              
+07-FEB-13 2289L     GNV                       1574 Williams        Robert          Pilot                
+07-FEB-13 1484P     TYS                        644 Duzak           Jeanine         Pilot                
+07-FEB-13 4278Y     ATL                        998 Wiesenbach      Paul            Pilot                
+
+> -- Number 6 using '92 syntax
+> SELECT emp_lname, emp_fname, emp_hire_date, 
+  (SELECT TRUNC((SYSDATE - to_date(emp_dob, 'DD-MON-RRRR')) / 365.25) FROM DUAL) AS "AgeQuestion?", 
+  TRUNC((SYSDATE - emp_dob) / 365.25) As "CorrectAge",
+  pil_ratings, pil_med_date, rtg_code, rtg_name 
+FROM pilot FULL OUTER JOIN avia_employee
+USING(emp_num)
+FULL OUTER JOIN rating
+ON rating.RTG_NAME = pilot.PIL_RATINGS
+ORDER BY emp_lname, emp_fname
+EMP_LNAME       EMP_FNAME       EMP_HIRE_DATE AgeQuestion? CorrectAge PIL_RATINGS                    PIL_MED_DATE RTG_CODE RTG_NAME                                         
+--------------- --------------- ------------- ------------ ---------- ------------------------------ ------------ -------- --------------------------------------------------
+Diante          Jorge           02-JUL-96               40         40                                                                                                         
+Duzak           Jeanine         05-JAN-91               46         46 ATP/SEL/MEL/Instr              10-DEC-12                                                                
+Genkazi         Leighla         01-DEC-92               44         44                                                                                                         
+Jones           Anne            28-AUG-05               39         39                                                                                                         
+Kolmycz         George          15-MAR-87              -27         72                                                                                                         
+Lange           John            20-OCT-96               42         42 ATP/SEL/MEL/Instr              18-DEC-12                                                                
+Lewis           Rhonda          25-APR-88               49         49 ATP/SEL/MEL/Instr/CFII         20-JAN-13                                                                
+Travis          Elizabeth       14-APR-91               53         53 ATP/SEL/MEL/SES/Instr/CFII     22-JAN-13                                                                
+VanDam          Rhett           20-DEC-92               55         55                                                                                                         
+Wiesenbach      Paul            18-NOV-94               48         48                                                                                                         
+Williams        Robert          08-JAN-06               39         39 COMM/SEL/MEL/Instr/CFI         05-JAN-13                                                                
+                                                                                                                  CFII     Certified Flight Instructor, Instrument            
+                                                                                                                  MEL      Multiengine Land                                   
+                                                                                                                  INSTR    Instrument                                         
+                                                                                                                  CFI      Certified Flight Instructor                        
+                                                                                                                  SEL      Single Engine, Land                                
+                                                                                                                  SES      Single Engine, Sea                                 
+                                                                                                                  MES      Multiengine Sea                                    
+
+ 18 rows selected 
+

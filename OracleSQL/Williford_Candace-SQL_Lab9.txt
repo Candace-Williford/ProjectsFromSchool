@@ -1,0 +1,283 @@
+--Candace Williford
+--CSIT 2520
+--Lab 9
+
+1a)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CREATE PROCEDURE check_available_credit(
+  p_cust_id IN demo_customer.custid%TYPE,
+  p_purchase_amount IN demo_customer.creditlimit%TYPE
+) AS
+  v_credit_limit demo_customer.creditlimit%TYPE;
+BEGIN
+  SELECT creditlimit
+  INTO v_credit_limit
+  FROM demo_customer
+  WHERE custid = p_cust_id;
+  
+  IF p_purchase_amount < v_credit_limit THEN
+    dbms_output.put_line('Credit approved for customer '||p_cust_id);
+  ELSE
+    dbms_output.put_line('Credit denied for customer '||p_cust_id);
+  END IF;
+END check_available_credit;
+/
+
+***********
+**** Test 1 - purchase amount < credit limit
+***********
+> CALL (check_available_credit(101, 4000.00))
+check_available_credit 101 succeeded.
+Credit approved for customer 101
+***********
+**** Test 2 - purchase amount == credit limit
+***********
+> CALL (check_available_credit(101, 10000.00))
+check_available_credit 101 succeeded.
+Credit approved for customer 101
+***********
+**** Test 3 - purchase amount > credit limit
+***********
+> CALL (check_available_credit(101, 10001.00))
+check_available_credit 101 succeeded.
+Credit denied for customer 101
+***********
+**** Test 3 - invalid CUSTID entered
+***********
+> CALL (check_available_credit(11, 10001.00))
+check_available_credit 11 succeeded.
+
+1a)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create or replace PROCEDURE check_available_credit_v2(
+  p_cust_id IN demo_customer.custid%TYPE,
+  p_purchase_amount IN demo_customer.creditlimit%TYPE
+) AS
+  v_credit_limit demo_customer.creditlimit%TYPE;
+BEGIN
+  SELECT creditlimit
+  INTO v_credit_limit
+  FROM demo_customer
+  WHERE custid = p_cust_id;
+  
+  IF p_purchase_amount <= v_credit_limit THEN
+    dbms_output.put_line('Credit approved for customer '||p_cust_id);
+  ELSE
+    dbms_output.put_line('Credit denied for customer '||p_cust_id);
+  END IF;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    dbms_output.put_line('Invalid customer id entered');
+  WHEN OTHERS THEN
+    dbms_output.put_line('A problem has occured in the procedure. Please contact your DBA.');
+END check_available_credit_v2;
+PROCEDURE CHECK_AVAILABLE_CREDIT_V2 compiled
+
+***********
+**** Test 1 - invalid customer id
+***********
+> CALL (check_available_credit_v2(10, 4000))
+check_available_credit_v2 10 succeeded.
+Invalid customer id entered
+***********
+**** Test 2 - valid customer id
+***********
+> CALL (check_available_credit_v2(101, 4000))
+check_available_credit_v2 101 succeeded.
+Credit approved for customer 101
+
+2)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create or replace PROCEDURE check_product_available(
+  p_product_id IN more_products.prd_id%TYPE
+)AS
+  v_product_found more_products.prd_id%TYPE;
+BEGIN
+  SELECT prd_id
+  INTO v_product_found
+  FROM more_products
+  WHERE prd_id = p_product_id;
+  
+  IF v_product_found != 0 THEN
+    dbms_output.put_line('That product is available.');
+  END IF;
+EXCEPTION
+  WHEN INVALID_NUMBER THEN
+    dbms_output.put_line('Please enter a valid product id.');
+  WHEN NO_DATA_FOUND THEN
+    dbms_output.put_line('That product is NOT available.');
+END check_product_available;
+
+***********
+**** Test 1 - product id doesn't exist
+***********
+> CALL (check_product_available(30))
+check_product_available 30)) succeeded.
+That product is NOT available.
+***********
+**** Test 2 - valid product id
+***********
+> CALL (check_product_available(2))
+check_product_available 2)) succeeded.
+That product is available.
+***********
+**** Test 3 - invalid product id
+***********
+--I'm having trouble getting that exception to catch
+
+3)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create or replace FUNCTION salary_increase(
+  p_salary_increase_percentage IN number,
+  p_emp_id IN more_employees.employee_id%TYPE
+)RETURN number AS
+  v_increased_salary more_employees.salary%TYPE;
+BEGIN
+  SELECT salary
+  INTO v_increased_salary
+  FROM more_employees
+  WHERE employee_id = p_emp_id;
+  
+  IF v_increased_salary > 0 THEN  
+    v_increased_salary := v_increased_salary * ((p_salary_increase_percentage / 100) + 1);
+  ELSE
+    v_increased_salary := 0;
+    dbms_output.put_line('Employee not found');
+  END IF;
+    
+  RETURN v_increased_salary;
+END salary_increase;
+
+***********
+**** Test 1 - valid employee id
+***********
+> SELECT salary_increase(5, 3) FROM dual
+SALARY_INCREASE(5,3)
+--------------------
+              210000 
+***********
+**** Test 2 - invalid employee id
+***********
+> SELECT salary_increase(5, 30) FROM dual
+SALARY_INCREASE(5,30)
+---------------------
+
+Employee not found
+
+4)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create or replace PROCEDURE employee_list(
+  p_division_id IN employees2.division_id%TYPE
+)AS
+  CURSOR v_division_employees_cursor IS
+    SELECT last_name, first_name, job_id, division_id, salary
+    FROM employees2
+    WHERE division_id = p_division_id;
+  v_last_name employees2.last_name%TYPE;
+  v_first_name employees2.first_name%TYPE;
+  v_job_id employees2.job_id%TYPE;
+  v_division_id employees2.division_id%TYPE;
+  v_salary employees2.salary%TYPE;
+BEGIN
+  OPEN v_division_employees_cursor;
+  LOOP
+    FETCH v_division_employees_cursor
+    INTO v_last_name, v_first_name, v_job_id, v_division_id, v_salary;
+    
+    IF v_division_employees_cursor%FOUND THEN
+      dbms_output.put_line('Employee '||v_first_name||' '||v_last_name||' is a '||v_job_id||' for division '||v_division_id||' who makes $'||v_salary||' per year.');
+    ELSE
+      dbms_output.put_line('Invalid division id');
+      EXIT;
+    END IF;
+  END LOOP;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    dbms_output.put_line('Invalid division id');
+END employee_list;
+
+***********
+**** Test 1 - valid division id
+***********
+> CALL employee_list('SAL')
+employee_list 'SAL') succeeded.
+Employee Ron Johnson is a MGR for division SAL who makes $350000 per year.
+Employee Fred Hobbs is a WOR for division SAL who makes $140000 per year.
+Employee Rob Green is a WOR for division SAL who makes $350000 per year.
+Employee Steve Green is a MGR for division SAL who makes $275000 per year.
+Employee Roy Red is a MGR for division SAL who makes $375000 per year.
+Employee Sandra Smith is a MGR for division SAL who makes $335000 per year.
+Employee Gail Silver is a MGR for division SAL who makes $225000 per year.
+Employee Gerald Gold is a MGR for division SAL who makes $245000 per year.
+Employee Eileen Lane is a MGR for division SAL who makes $235000 per year.
+Employee Doreen Upton is a MGR for division SAL who makes $235000 per year.
+Employee Jack Ewing is a MGR for division SAL who makes $235000 per year.
+Employee Paul Owens is a MGR for division SAL who makes $245000 per year.
+Employee Melanie York is a MGR for division SAL who makes $255000 per year.
+Employee Tracy Yellow is a MGR for division SAL who makes $225000 per year.
+Employee Sarah White is a MGR for division SAL who makes $235000 per year.
+Employee Terry Iron is a MGR for division SAL who makes $225000 per year.
+Employee Christine Brown is a MGR for division SAL who makes $247000 per year.
+Employee John Brown is a MGR for division SAL who makes $249000 per year.
+Employee Kelvin Trenton is a MGR for division SAL who makes $255000 per year.
+Invalid division id
+***********
+**** Test 2 - invalid division id
+***********
+> CALL employee_list('TTT')
+employee_list 'TTT') succeeded.
+Invalid division id
+
+5)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create or replace PROCEDURE customer_charters(
+  p_cus_code IN avia_customer.cus_code%TYPE
+)AS
+  v_cus_code avia_customer.cus_code%TYPE;
+  v_cus_lname avia_customer.cus_lname%TYPE;
+  v_cus_fname avia_customer.cus_fname%TYPE;
+  v_char_date charter.char_date%TYPE;
+  v_char_destination charter.char_destination%TYPE;
+  v_char_distance charter.char_distance%TYPE;
+  v_char_fuel_gallons charter.char_fuel_gallons%TYPE;
+  v_char_mpg number;
+  v_total_miles_flown number;
+  CURSOR v_customer_flights_cursor IS
+    SELECT cus_code, avia_customer.cus_lname, avia_customer.cus_fname, charter.char_date, charter.char_destination, charter.char_distance, charter.char_fuel_gallons, charter.char_distance / charter.char_fuel_gallons
+    FROM avia_customer INNER JOIN charter
+    USING(cus_code)
+    WHERE cus_code = p_cus_code;
+BEGIN
+  OPEN v_customer_flights_cursor;
+  LOOP
+    FETCH v_customer_flights_cursor
+    INTO v_cus_code, v_cus_lname, v_cus_fname, v_char_date, v_char_destination, v_char_distance, v_char_fuel_gallons, v_char_mpg;
+    
+    IF v_customer_flights_cursor%FOUND THEN
+      v_total_miles_flown := v_total_miles_flown + v_char_distance;
+      dbms_output.put_line('Customer '||v_cus_fname||' '||v_cus_lname||' booked a trip for '||v_char_destination||' on '||v_char_date||' that is '||v_char_distance||' miles. The plane used '||v_char_fuel_gallons||' gallons going '||v_char_mpg||' milse per gallon.');
+    ELSE
+      dbms_output.put_line('Invalid customer id');
+      EXIT;
+    END IF;
+  END LOOP;
+  
+--  dbms_output.put_line('Total miles flown is '||v_total_miles_flown);
+END customer_charters;
+***********
+**** Test 1 - customer who booked multiple charters
+***********
+> CALL customer_charters(10011)
+customer_charters 10011) succeeded.
+Customer Leona Dunne booked a trip for ATL on 05-FEB-13 that is 936 miles. The plane used 354.1 gallons going 2.6433210957356678904264332109573566789 milse per gallon.
+Customer Leona Dunne booked a trip for ATL on 06-FEB-13 that is 1023 miles. The plane used 397.7 gallons going 2.57229067136032185064118682423937641438 milse per gallon.
+Customer Leona Dunne booked a trip for TYS on 08-FEB-13 that is 644 miles. The plane used 174.3 gallons going 3.69477911646586345381526104417670682731 milse per gallon.
+Customer Leona Dunne booked a trip for MQY on 09-FEB-13 that is 312 miles. The plane used 67.2 gallons going 4.64285714285714285714285714285714285714 milse per gallon.
+Invalid customer id
+***********
+**** Test 2 - customer who booked single charter
+***********
+> CALL customer_charters(10019)
+customer_charters 10019) succeeded.
+Customer Olette Smith booked a trip for STL on 06-FEB-13 that is 472 miles. The plane used 97.2 gallons going 4.85596707818930041152263374485596707819 milse per gallon.
+Invalid customer id
+***********
+**** Test 3 - customer who doesn't exist
+***********
+> CALL customer_charters(17011)
+customer_charters 17011) succeeded.
+Invalid customer id

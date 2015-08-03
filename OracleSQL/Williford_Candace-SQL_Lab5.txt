@@ -1,0 +1,38 @@
+/**************************************/
+/* File Name: stockReport.txt         */
+/* Purpose: To determine daily profit */
+/* Written By: Candace Williford      */
+/* Course: CSIT 2520 - Fall, 2014     */
+/* Creation Date: 29 September 2014   */
+/**************************************/
+
+TTITLE LEFT 'Charter Mileage Report by ' SQL.USER ' on ' _DATE CENTER RIGHT 'Page: ' FORMAT 999 SQL.PNO SKIP 2
+BTITLE CENTER 'CSIT 2520 Lab 5 - Fall 2014' RIGHT 'Page: ' FORMAT 999 SQL.PNO
+
+BREAK ON char_destination SKIP 2 ON report
+COMPUTE AVG LABEL 'Avg mpg' OF MPG on char_destination
+COMPUTE SUM LABEL 'Totals' OF char_distance ON char_destination
+COMPUTE SUM OF char_fuel_gallons ON char_destination
+
+set echo off
+set verify off
+set pagesize 68
+set linesize 60
+set headsep on
+
+clear columns
+COLUMN char_destination HEADING 'Destination' format a11
+COLUMN ac_number HEADING 'Aircraft'format a11
+COLUMN char_distance HEADING 'Miles|Traveled' format 99,999
+COLUMN char_fuel_gallons HEADING 'Fuel Used|in Gallons'format 9999.99
+--COLUMN mpg HEADING 'MPG'
+
+--spool C:\Users\cawilliford\Desktop\charterReport.txt
+SELECT char_destination, ac_number, char_distance, char_fuel_gallons, (char_distance / char_fuel_gallons) AS "MPG"
+FROM charter
+ORDER BY char_destination, ac_number;
+
+--spool off
+clear columns
+TTITLE off
+BTITLE off

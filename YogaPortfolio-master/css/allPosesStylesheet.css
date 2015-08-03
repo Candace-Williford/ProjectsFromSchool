@@ -1,0 +1,28 @@
+.checkbox {
+  min-height: 10px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+#filter-panel {
+    width: 135px;
+    float: left;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+}
+
+.poseColumn {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 55px;
+    height: 200px;
+    width: 200px;
+}
+
+/*The text is hanging off the panel on the very last row. This fixes it.*/
+.bottomMargin {
+    margin-bottom: 30px;
+}

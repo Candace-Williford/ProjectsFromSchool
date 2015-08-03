@@ -1,0 +1,272 @@
+Candace Williford
+CSIT 2520 Lab 2
+
+(1)
+> SELECT SYSDATE FROM DUAL
+SYSDATE 
+---------
+02-SEP-14
+
+(2)
+> SELECT table_name FROM user_tables
+TABLE_NAME                                                                                                                     
+--------------------------------------------------------------------------------------------------------------------------------
+CUSTOMERS                                                                                                                        
+PRODUCT_TYPES                                                                                                                    
+PRODUCTS                                                                                                                         
+PURCHASES                                                                                                                        
+EMPLOYEES                                                                                                                        
+SALARY_GRADES                                                                                                                    
+PURCHASES_WITH_TIMESTAMP                                                                                                         
+PURCHASES_TIMESTAMP_WITH_TZ                                                                                                      
+PURCHASES_WITH_LOCAL_TZ                                                                                                          
+COUPONS                                                                                                                          
+PROMOTIONS                                                                                                                       
+ORDER_STATUS                                                                                                                     
+PRODUCT_CHANGES                                                                                                                  
+MORE_PRODUCTS                                                                                                                    
+MORE_EMPLOYEES                                                                                                                   
+DIVISIONS                                                                                                                        
+JOBS                                                                                                                             
+EMPLOYEES2                                                                                                                       
+EMPLOYEES3                                                                                                                       
+ALL_SALES                                                                                                                        
+ALL_SALES2                                                                                                                       
+ALL_SALES3                                                                                                                       
+PRODUCT_PRICE_AUDIT                                                                                                              
+REG_EXPS                                                                                                                         
+PIVOT_SALES_DATA                                                                                                                 
+
+ 25 rows selected 
+
+(3)
+> SELECT table_name FROM all_tables
+WHERE owner='SCOTT'
+TABLE_NAME                                                                                                                     
+--------------------------------------------------------------------------------------------------------------------------------
+DEPT                                                                                                                             
+EMP                                                                                                                              
+BONUS                                                                                                                            
+SALGRADE                                                                                                                         
+
+(4)
+> DESCRIBE scott.emp
+DESCRIBE scott.emp
+Name     Null     Type         
+-------- -------- ------------ 
+EMPNO    NOT NULL NUMBER(4)    
+ENAME             VARCHAR2(10) 
+JOB               VARCHAR2(9)  
+MGR               NUMBER(4)    
+HIREDATE          DATE         
+SAL               NUMBER(7,2)  
+COMM              NUMBER(7,2)  
+DEPTNO            NUMBER(2)    
+
+(5)
+> DESCRIBE employees
+DESCRIBE employees
+Name        Null     Type         
+----------- -------- ------------ 
+EMPLOYEE_ID NOT NULL NUMBER(38)   
+MANAGER_ID           NUMBER(38)   
+FIRST_NAME  NOT NULL VARCHAR2(10) 
+LAST_NAME   NOT NULL VARCHAR2(10) 
+TITLE                VARCHAR2(20) 
+SALARY               NUMBER(6) 
+
+(6)
+> SELECT * FROM employees
+EMPLOYEE_ID MANAGER_ID FIRST_NAME LAST_NAME  TITLE                    SALARY
+----------- ---------- ---------- ---------- -------------------- ----------
+          1            James      Smith      CEO                      800000 
+          2          1 Ron        Johnson    Sales Manager            600000 
+          3          2 Fred       Hobbs      Salesperson              150000 
+          4          2 Susan      Jones      Salesperson              500000 
+
+
+(7)
+> SELECT COUNT(*) FROM employees
+  COUNT(*)
+----------
+         4
+
+(8)
+> SELECT DISTINCT title FROM employees
+TITLE              
+--------------------
+Salesperson          
+CEO                  
+Sales Manager
+
+(9)
+> SELECT employee_id, first_name, last_name
+FROM employees
+WHERE title = 'Salesperson'
+EMPLOYEE_ID FIRST_NAME LAST_NAME
+----------- ---------- ----------
+          3 Fred       Hobbs      
+          4 Susan      Jones
+
+
+(10)
+> SELECT last_name, first_name
+FROM employees
+ORDER BY last_name ASC
+LAST_NAME  FIRST_NAME
+---------- ----------
+Hobbs      Fred       
+Johnson    Ron        
+Jones      Susan      
+Smith      James 
+
+(11)
+> SELECT TITLE, LAST_NAME, FIRST_NAME
+FROM more_employees
+ORDER BY TITLE, LAST_NAME, FIRST_NAME
+TITLE                LAST_NAME  FIRST_NAME
+-------------------- ---------- ----------
+CEO                  Smith      James      
+Ops Manager          Black      Kevin      
+Ops Person           Howard     Frank      
+Ops Person           Long       Keith      
+Ops Person           Penn       Doreen     
+Sales Manager        Johnson    Ron        
+Sales Person         Green      Rob        
+Sales Person         Hobbs      Fred       
+Support Manager      Grey       John       
+Support Manager      Jones      Susan      
+Support Person       Blue       Jean       
+Support Person       Brown      Jane       
+Support Person       Heyson     Henry      
+
+ 13 rows selected 
+
+(12)
+> SELECT last_name, first_name
+FROM more_employees
+WHERE manager_id IS null
+LAST_NAME  FIRST_NAME
+---------- ----------
+Smith      James 
+
+(13)
+> SELECT last_name, title, salary
+FROM more_employees
+WHERE title LIKE 'Support%' AND salary > 30000
+LAST_NAME  TITLE                    SALARY
+---------- -------------------- ----------
+Jones      Support Manager          500000 
+Brown      Support Person            45000 
+
+(14)
+> SELECT last_name, title, salary
+FROM more_employees
+WHERE title LIKE 'Sales%'
+LAST_NAME  TITLE                    SALARY
+---------- -------------------- ----------
+Johnson    Sales Manager            600000 
+Hobbs      Sales Person             200000 
+Green      Sales Person              40000 
+
+(15)
+> SELECT last_name, title, salary
+FROM more_employees
+WHERE salary BETWEEN 30000 AND 70000
+LAST_NAME  TITLE                    SALARY
+---------- -------------------- ----------
+Green      Sales Person              40000 
+Brown      Support Person            45000 
+Grey       Support Manager           30000 
+Heyson     Support Person            30000 
+Long       Ops Person                50000 
+Howard     Ops Person                45000 
+Penn       Ops Person                47000 
+
+ 7 rows selected 
+
+(16)
+> SELECT last_name, title, salary
+FROM more_employees
+WHERE salary >= 30000 AND salary <= 70000
+LAST_NAME  TITLE                    SALARY
+---------- -------------------- ----------
+Green      Sales Person              40000 
+Brown      Support Person            45000 
+Grey       Support Manager           30000 
+Heyson     Support Person            30000 
+Long       Ops Person                50000 
+Howard     Ops Person                45000 
+Penn       Ops Person                47000 
+
+ 7 rows selected 
+
+(17)
+> SELECT last_name, first_name
+FROM more_employees
+WHERE first_name LIKE 'K%'
+LAST_NAME  FIRST_NAME
+---------- ----------
+Black      Kevin      
+Long       Keith 
+
+(18)
+> SELECT salary, (salary + (salary * 0.10)) AS "Commission", last_name, first_name
+FROM more_employees
+WHERE title='Sales Person'
+ORDER BY last_name, first_name
+    SALARY Commission LAST_NAME  FIRST_NAME
+---------- ---------- ---------- ----------
+     40000      44000 Green      Rob        
+    200000     220000 Hobbs      Fred       
+
+(19)
+> SELECT amount, prd_type_id, emp_id
+FROM all_sales
+WHERE month=10 AND amount IS NOT NULL
+ORDER BY amount DESC
+    AMOUNT PRD_TYPE_ID     EMP_ID
+---------- ----------- ----------
+  32754.19           3         21 
+  23754.19           4         23 
+  22754.19           4         21 
+  22754.19           1         24 
+  21754.19           1         21 
+  20754.19           4         22 
+  18754.19           1         22 
+  16754.27           1         26 
+  15754.19           3         22 
+  13754.19           3         23 
+  12754.19           1         25 
+  12534.19           1         23 
+   4354.34           3         26 
+   3754.19           4         24 
+   3454.19           2         26 
+   2754.19           2         21 
+   2754.19           4         25 
+   2354.19           3         25 
+   2354.19           2         23 
+   2254.19           2         22 
+   2254.19           2         24 
+   1554.19           4         26 
+   1354.19           3         24 
+    454.19           2         25 
+
+ 24 rows selected 
+
+
+The query is filtered into descending order so the first number in the amount column is the highest sales amount, 32754.19.
+
+(20)
+> SELECT (price + (price * 0.10)) AS "TOTAL_PRICE", name, description
+FROM products
+WHERE (price + (price * 0.10)) < 15
+ORDER BY total_price DESC
+TOTAL_PRICE NAME                           DESCRIPTION                                      
+----------- ------------------------------ --------------------------------------------------
+     14.839 Space Force 9                  Adventures of heroes                               
+     14.839 My Front Line                  Their greatest hits                                
+     14.289 From Another Planet            Alien from another planet lands on Earth           
+     12.089 Classical Music                The best classical music                           
+
+I only have $15. I need an item that won't exceed that amount but I can't forget about tax (10% rate).

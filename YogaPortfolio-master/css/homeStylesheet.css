@@ -1,0 +1,47 @@
+#buttonDiv {
+    background-color: white;
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.panel-body {
+  padding: 0 10% 0 10%;
+}
+
+#welcomeTag {
+    float: right;
+}
+
+<<<<<<< HEAD
+.images {
+    margin: 25% 10% 25% 10%;
+}
+
+=======
+.imgLink {
+    margin: 25% 10% 25% 10%;
+    opacity: .60;
+}
+
+/*
+>>>>>>> branch11222014
+section div {
+    background-color: #f8f8f8;
+}
+*/
+
+<<<<<<< HEAD
+/*
+.imageLink:hover {
+    border-style: solid;
+    border-width: 5ps;
+    border-color: gray;
+}*/
+=======
+.imgLink:hover {
+    opacity: 1.0;
+}
+>>>>>>> branch11222014

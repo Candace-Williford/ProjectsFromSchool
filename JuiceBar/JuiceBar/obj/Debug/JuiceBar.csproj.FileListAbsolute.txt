@@ -1,0 +1,21 @@
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\bin\Debug\JuiceBar.exe.config
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\bin\Debug\JuiceBar.exe
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\bin\Debug\JuiceBar.pdb
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\obj\Debug\JuiceBar.csprojResolveAssemblyReference.cache
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\obj\Debug\JuiceBar.Properties.Resources.resources
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\obj\Debug\JuiceBar.csproj.GenerateResource.Cache
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\obj\Debug\JuiceBar.exe
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\obj\Debug\JuiceBar.pdb
+c:\users\darrell\documents\visual studio 2013\Projects\JuiceBar\JuiceBar\obj\Debug\JuiceBar.juiceBarForm.resources
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\bin\Debug\JuiceBar.exe.config
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\obj\Debug\JuiceBar.exe
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\obj\Debug\JuiceBar.pdb
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\bin\Debug\JuiceBar.exe
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\bin\Debug\JuiceBar.pdb
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\obj\Debug\JuiceBar.csprojResolveAssemblyReference.cache
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\obj\Debug\JuiceBar.juiceBarForm.resources
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\obj\Debug\JuiceBar.Properties.Resources.resources
+C:\Users\Candace\Desktop\JuiceBar\JuiceBar\obj\Debug\JuiceBar.csproj.GenerateResource.Cache
+F:\2014-2015_School_Year\C#\JuiceBar\JuiceBar\bin\Debug\JuiceBar.exe.config
+F:\2014-2015_School_Year\C#\JuiceBar\JuiceBar\obj\Debug\JuiceBar.exe
+F:\2014-2015_School_Year\C#\JuiceBar\JuiceBar\obj\Debug\JuiceBar.pdb

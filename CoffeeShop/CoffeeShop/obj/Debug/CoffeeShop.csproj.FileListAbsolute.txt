@@ -1,0 +1,23 @@
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.exe.config
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.exe
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.pdb
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.csprojResolveAssemblyReference.cache
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.SplashScreen.resources
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.Properties.Resources.resources
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.csproj.GenerateResource.Cache
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.exe
+c:\users\candace\documents\visual studio 2013\Projects\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.pdb
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.exe.config
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.exe
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.pdb
+E:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.exe.config
+E:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.exe
+E:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.pdb
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.exe
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\bin\Debug\CoffeeShop.pdb
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.csprojResolveAssemblyReference.cache
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.CoffeeShopForm.resources
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.SplashScreen.resources
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.Properties.Resources.resources
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.csproj.GenerateResource.Cache
+F:\2014-2015_School_Year\C#\CoffeeShop\CoffeeShop\obj\Debug\CoffeeShop.AboutForm.resources

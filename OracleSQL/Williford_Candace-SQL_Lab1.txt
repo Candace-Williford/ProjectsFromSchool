@@ -1,0 +1,101 @@
+Candace Williford
+CSIT 2520
+
+
+> DESCRIBE customers
+DESCRIBE customers
+Name        Null     Type         
+----------- -------- ------------ 
+CUSTOMER_ID NOT NULL NUMBER(38)   
+FIRST_NAME  NOT NULL VARCHAR2(10) 
+LAST_NAME   NOT NULL VARCHAR2(10) 
+DOB                  DATE         
+PHONE                VARCHAR2(12) 
+
+
+
+> INSERT INTO customers (
+  customer_id, first_name, last_name, dob, phone
+) VALUES (
+  6, 'Fred', 'Brown', '01-Jan-1970', '800-555-1215'
+)
+1 rows inserted.
+
+
+
+> SELECT * FROM customers
+CUSTOMER_ID FIRST_NAME LAST_NAME  DOB       PHONE      
+----------- ---------- ---------- --------- ------------
+          1 John       Brown      01-JAN-65 800-555-1211 
+          2 Cynthia    Green      05-FEB-68 800-555-1212 
+          3 Steve      White      16-MAR-71 800-555-1213 
+          4 Gail       Black                800-555-1214 
+          5 Doreen     Blue       20-MAY-70              
+          6 Fred       Brown      01-JAN-70 800-555-1215 
+
+ 6 rows selected 
+
+
+> INSERT INTO customers (
+  customer_id, first_name, last_name, dob, phone
+) VALUES (
+  1, 'Lisa', 'Jones', '02-Jan-1971', '800-555-1225'
+)
+
+Error starting at line : 3 in command -
+INSERT INTO customers (
+  customer_id, first_name, last_name, dob, phone
+) VALUES (
+  1, 'Lisa', 'Jones', '02-Jan-1971', '800-555-1225'
+)
+Error report -
+SQL Error: ORA-00001: unique constraint (CAWILLIFORD.CUSTOMERS_PK) violated
+00001. 00000 -  "unique constraint (%s.%s) violated"
+*Cause:    An UPDATE or INSERT statement attempted to insert a duplicate key. ****customer_id '1' already exists****
+           For Trusted Oracle configured in DBMS MAC mode, you may see
+           this message if a duplicate entry exists at a different level.
+*Action:   Either remove the unique restriction or do not insert the key.
+
+
+> UPDATE customers
+SET last_name = 'Orange'
+WHERE customer_id = 2
+1 rows updated.
+
+
+> SELECT * 
+FROM customers
+WHERE customer_id = 2
+CUSTOMER_ID FIRST_NAME LAST_NAME  DOB       PHONE      
+----------- ---------- ---------- --------- ------------
+          2 Cynthia    Orange     05-FEB-68 800-555-1212 
+
+
+> DELETE FROM customers
+WHERE customer_id = 6
+1 rows deleted.
+
+
+> ROLLBACK
+rollback complete.
+
+
+> SELECT * FROM SCOTT.EMP
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20 
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30 
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30 
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20 
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30 
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30 
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10 
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20 
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10 
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30 
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20 
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30 
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20 
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10 
+
+ 14 rows selected 

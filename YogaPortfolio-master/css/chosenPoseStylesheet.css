@@ -1,0 +1,17 @@
+.posePicture {
+    margin-left: 15px;
+    max-width: 300px;
+    max-height: 350px;
+}
+
+.thumbnail {
+    width: 100%;
+}
+
+.routineRow {
+    text-align: center;
+}
+
+#routinesList {
+    margin-left: 20px;
+}

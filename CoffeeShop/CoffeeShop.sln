@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop", "CoffeeShop\CoffeeShop.csproj", "{DD192D28-7755-4758-BDD4-44AC12B53734}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD192D28-7755-4758-BDD4-44AC12B53734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD192D28-7755-4758-BDD4-44AC12B53734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD192D28-7755-4758-BDD4-44AC12B53734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD192D28-7755-4758-BDD4-44AC12B53734}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
